@@ -278,7 +278,7 @@
             <!-- Card 1 -->
             <div class="col-md-4 animate__animated animate__fadeInUp">
                 <div class="card">
-                    <img src="{{ asset('img/bg6.jpg') }}" class="card-img-top" alt="Customer Management">
+                    <img src="{{ asset('img/bg6.png') }}" class="card-img-top" alt="Customer Management">
                     <div class="card-body">
                         <h5 class="card-title">
                             <i class="fas fa-users me-2"></i>Customers
@@ -294,7 +294,7 @@
             <!-- Card 2 -->
             <div class="col-md-4 animate__animated animate__fadeInUp animate__delay-1s">
                 <div class="card">
-                    <img src="{{ asset('img/bg3.jpg') }}" class="card-img-top" alt="Menu Management">
+                    <img src="{{ asset('img/bg2.jpg') }}" class="card-img-top" alt="Menu Management">
                     <div class="card-body">
                         <h5 class="card-title">
                             <i class="fas fa-utensils me-2"></i>Menu Items

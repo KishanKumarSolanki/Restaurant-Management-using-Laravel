@@ -69,7 +69,7 @@
   
     <div class="collapse navbar-collapse justify-content-end" id="navbarNav">
       <div class="navbar-nav">
-        <a href="{{ route('login') }}" class="btn btn-outline-primary me-2">
+        <a href="{{ route('login') }}" class="btn btn-primary me-2">
           <i class="fas fa-sign-in-alt me-1" ></i> Login
         </a>
         <a href="{{ route('register') }}" class="btn btn-primary">
