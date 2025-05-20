@@ -62,18 +62,20 @@ class CustomerController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, customer $customer)
-    {
-        $request->validate([
-            'customerno' => 'required',
-            'name' => 'required',
-            'phone' => 'required',
-            'address' => 'required',
-        ]);
-        
-        return redirect()->route('customers.index')
-            ->with('success', 'Customer updated successfully.');
-    }
+    public function update(Request $request, Customer $customer)
+{
+    $validated = $request->validate([
+        'customerno' => 'required|string|max:255',
+        'name'       => 'required|string|max:255',
+        'phone'      => 'required|string|max:15',
+        'address'    => 'required|string|max:255',
+        'notes'      => 'nullable|string',
+    ]);
+
+    $customer->update($validated);
+
+    return redirect()->route('customers.index')->with('success', 'Customer updated successfully!');
+}
 
     /**
      * Remove the specified resource from storage.
