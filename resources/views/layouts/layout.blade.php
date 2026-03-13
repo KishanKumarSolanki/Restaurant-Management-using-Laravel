@@ -214,6 +214,11 @@
                             <i class="fas fa-receipt"></i> Orders
                         </a>
                     </li>
+                    <li class="nav-item">
+                        <a class="nav-link {{ request()->is('staff*') || request()->is('staff-members*') ? 'active' : '' }}" href="{{ route('staff-members.index') }}">
+                            <i class="fas fa-user-check"></i> Staff
+                        </a>
+                    </li>
                 </ul>
                 <div>
                     <a href="{{ route('logout') }}" class="btn btn-outline-light"

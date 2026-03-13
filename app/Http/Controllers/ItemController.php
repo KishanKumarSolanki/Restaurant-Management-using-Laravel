@@ -12,7 +12,7 @@ class ItemController extends Controller
      */
     public function index()
     {
-        $items = Item::paginate(10);
+        $items = Item::orderBy('name')->paginate(10);
         return view('items.index', compact('items'));
     }
 
@@ -29,13 +29,15 @@ class ItemController extends Controller
      */
     public function store(Request $request)
     {
-        $request->validate([
+        $validated = $request->validate([
             'name' => 'required|string|max:255',
-            'price' => 'required|integer|min:1|max:120',
+            'price' => 'required|numeric|min:1|max:9999.99',
             'category' => 'required|string|max:255',
+            'description' => 'nullable|string|max:500',
+            'is_available' => 'required|boolean',
         ]);
 
-        Item::create($request->all());
+        Item::create($validated);
 
         return redirect()->route('items.index')->with('success', 'Item created successfully.');
     }
@@ -61,9 +63,15 @@ class ItemController extends Controller
      */
     public function update(Request $request, Item $item)
     {
-        
+        $validated = $request->validate([
+            'name' => 'required|string|max:255',
+            'price' => 'required|numeric|min:1|max:9999.99',
+            'category' => 'required|string|max:255',
+            'description' => 'nullable|string|max:500',
+            'is_available' => 'required|boolean',
+        ]);
 
-        $item->update($request->only(['name', 'price', 'category']));
+        $item->update($validated);
 
         return redirect()->route('items.index')->with('success', 'Item updated successfully.');
     }

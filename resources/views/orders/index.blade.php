@@ -35,6 +35,8 @@
                             <th class="text-nowrap">#</th>
                             <th class="text-nowrap"><i class="fas fa-file-signature me-1"></i> Order</th>
                             <th class="text-nowrap"><i class="fas fa-user-tag me-1"></i> Customer No</th>
+                            <th class="text-nowrap"><i class="fas fa-user-check me-1"></i> Assigned Staff</th>
+                            <th class="text-nowrap"><i class="fas fa-bowl-food me-1"></i> Items</th>
                             <th class="text-nowrap"><i class="fas fa-boxes me-1"></i> Quantity</th>
                             <th class="text-nowrap"><i class="fas fa-money-bill-wave me-1"></i> Amount</th>
                             <th class="text-nowrap"><i class="fas fa-info-circle me-1"></i> Status</th>
@@ -47,6 +49,21 @@
                                 <td>{{ ($orders->currentPage() - 1) * $orders->perPage() + $loop->iteration }}</td>
                                 <td>{{ $order->ordername }}</td>
                                 <td>{{ $order->customerno }}</td>
+                                <td>
+                                    @if($order->assignment_name)
+                                        <span class="badge bg-info-subtle text-info-emphasis border">
+                                            {{ $order->assignment_name }}
+                                        </span>
+                                    @else
+                                        <span class="badge bg-light text-dark border">Unassigned</span>
+                                    @endif
+                                </td>
+                                <td>
+                                    <div class="fw-semibold">{{ $order->orderItems->count() }} items</div>
+                                    <small class="text-muted">
+                                        {{ $order->orderItems->take(2)->pluck('item.name')->filter()->join(', ') ?: 'No line items' }}
+                                    </small>
+                                </td>
                                 <td>{{ $order->quantity }}</td>
                                 <td>{{ number_format($order->amount, 2) }}</td>
                                 <td>
@@ -79,7 +96,7 @@
                             </tr>
                         @empty
                             <tr>
-                                <td colspan="7" class="text-center py-4">
+                                <td colspan="9" class="text-center py-4">
                                     <i class="fas fa-clipboard fa-2x mb-3 text-muted"></i>
                                     <h5 class="text-muted">No Orders Found</h5>
                                     <a href="{{ route('orders.create') }}" class="btn btn-primary mt-2">

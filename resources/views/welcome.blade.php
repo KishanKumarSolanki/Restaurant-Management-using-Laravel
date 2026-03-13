@@ -207,7 +207,7 @@
     
     <footer class="bg-dark text-white py-4">
         <div class="container text-center">
-            <p class="mb-0">© 2025 Cafe Express. All rights reserved.</p>
+            <p class="mb-0">© 2026 Cafe Express. All rights reserved.</p>
         </div>
     </footer>
 

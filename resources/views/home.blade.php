@@ -376,7 +376,7 @@
                         <a href="#"><i class="fab fa-instagram"></i></a>
                         <a href="#"><i class="fab fa-linkedin"></i></a>
                     </div>
-                    <p class="mb-0">© 2025 Cafe Express. All rights reserved.</p>
+                    <p class="mb-0">© 2026 Cafe Express. All rights reserved.</p>
                 </div>
             </div>
         </div>

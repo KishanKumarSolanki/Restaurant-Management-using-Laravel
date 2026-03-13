@@ -37,6 +37,7 @@
                             <th><i class="fas fa-user me-1"></i> Name</th>
                             <th><i class="fas fa-phone me-1"></i> Phone</th>
                             <th><i class="fas fa-map-marker-alt me-1"></i> Address</th>
+                            <th><i class="fas fa-sticky-note me-1"></i> Notes</th>
                             <th class="text-end"><i class="fas fa-cog me-1"></i> Actions</th>
                         </tr>
                     </thead>
@@ -54,6 +55,7 @@
                                     @endif
                                 </td>
                                 <td>{{ Str::limit($customer->address, 30) }}</td>
+                                <td>{{ Str::limit($customer->notes ?: 'No notes', 30) }}</td>
                                 <td class="text-end">
                                     <div class="btn-group btn-group-sm" role="group">
                                         <a href="{{ route('customers.edit', $customer->id) }}" 
@@ -74,7 +76,7 @@
                             </tr>
                         @empty
                             <tr>
-                                <td colspan="6" class="text-center py-4">
+                                <td colspan="7" class="text-center py-4">
                                     <i class="fas fa-user-slash fa-2x mb-3 text-muted"></i>
                                     <h5 class="text-muted">No Customers Found</h5>
                                     <a href="{{ route('customers.create') }}" class="btn btn-primary mt-2">

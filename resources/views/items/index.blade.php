@@ -36,6 +36,8 @@
                             <th class="text-nowrap"><i class="fas fa-tag me-1"></i> Name</th>
                             <th class="text-nowrap"><i class="fas fa-dollar-sign me-1"></i> Price</th>
                             <th class="text-nowrap"><i class="fas fa-list me-1"></i> Category</th>
+                            <th class="text-nowrap"><i class="fas fa-align-left me-1"></i> Description</th>
+                            <th class="text-nowrap"><i class="fas fa-toggle-on me-1"></i> Availability</th>
                             <th class="text-nowrap text-end"><i class="fas fa-cog me-1"></i> Actions</th>
                         </tr>
                     </thead>
@@ -46,6 +48,12 @@
                                 <td>{{ $item->name }}</td>
                                 <td>{{ number_format($item->price, 2) }}</td>
                                 <td>{{ $item->category }}</td>
+                                <td>{{ Str::limit($item->description ?: 'No description added.', 40) }}</td>
+                                <td>
+                                    <span class="badge {{ $item->is_available ? 'bg-success' : 'bg-danger' }}">
+                                        {{ $item->is_available ? 'Available' : 'Out of Stock' }}
+                                    </span>
+                                </td>
                                 <td class="text-end">
                                     <div class="btn-group btn-group-sm" role="group">
                                         <a href="{{ route('items.edit', $item->id) }}" 
@@ -66,7 +74,7 @@
                             </tr>
                         @empty
                             <tr>
-                                <td colspan="5" class="text-center py-4">
+                                <td colspan="7" class="text-center py-4">
                                     <i class="fas fa-box-open fa-2x mb-3 text-muted"></i>
                                     <h5 class="text-muted">No Items Found</h5>
                                     <a href="{{ route('items.create') }}" class="btn btn-primary mt-2">

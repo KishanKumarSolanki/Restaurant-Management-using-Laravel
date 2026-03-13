@@ -5,6 +5,8 @@ use App\Http\Controllers\CustomerController;
 use App\Http\Controllers\ItemController;
 use App\Http\Controllers\OrderController;
 use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\StaffAssignmentController;
+use App\Http\Controllers\StaffMemberController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
@@ -28,6 +30,9 @@ Route::get('/home', function () {
 route::resource('customers', CustomerController::class)->middleware(['auth']); 
 route::resource('items', ItemController::class)->middleware(['auth']);
 route::resource('orders', OrderController::class)->middleware(['auth']);
+route::resource('staff-members', StaffMemberController::class)->except(['show'])->middleware(['auth']);
+Route::get('/staff/create', [StaffAssignmentController::class, 'create'])->middleware(['auth'])->name('staff.create');
+Route::post('/staff', [StaffAssignmentController::class, 'store'])->middleware(['auth'])->name('staff.store');
 Route::get('/dashboard', [DashboardController::class, 'index'])->middleware(['auth'])->name('dashboard');
 
 require __DIR__.'/auth.php';

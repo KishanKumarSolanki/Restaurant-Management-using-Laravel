@@ -166,6 +166,42 @@
                                         @enderror
                                     </div>
                                 </div>
+
+                                <div class="col-md-6">
+                                    <label for="is_available" class="form-label">
+                                        <i class="fas fa-toggle-on me-1"></i> Availability
+                                    </label>
+                                    <div class="input-group">
+                                        <span class="input-group-text">
+                                            <i class="fas fa-circle-check"></i>
+                                        </span>
+                                        <select id="is_available" name="is_available"
+                                                class="form-select @error('is_available') is-invalid @enderror" required>
+                                            <option value="1" {{ old('is_available', (string) (int) $item->is_available) == '1' ? 'selected' : '' }}>Available</option>
+                                            <option value="0" {{ old('is_available', (string) (int) $item->is_available) == '0' ? 'selected' : '' }}>Out of Stock</option>
+                                        </select>
+                                        @error('is_available')
+                                            <div class="invalid-feedback">
+                                                <i class="fas fa-exclamation-circle me-1"></i> {{ $message }}
+                                            </div>
+                                        @enderror
+                                    </div>
+                                </div>
+
+                                <div class="col-12">
+                                    <label for="description" class="form-label">
+                                        <i class="fas fa-align-left me-1"></i> Description
+                                    </label>
+                                    <textarea id="description" name="description"
+                                              class="form-control @error('description') is-invalid @enderror"
+                                              rows="4"
+                                              placeholder="Briefly describe the dish, ingredients, or special notes">{{ old('description', $item->description) }}</textarea>
+                                    @error('description')
+                                        <div class="invalid-feedback d-block">
+                                            <i class="fas fa-exclamation-circle me-1"></i> {{ $message }}
+                                        </div>
+                                    @enderror
+                                </div>
                             </div>
 
                             <div class="d-flex justify-content-between mt-4 pt-3 border-top">

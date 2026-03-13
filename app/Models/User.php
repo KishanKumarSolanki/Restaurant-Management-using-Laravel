@@ -20,6 +20,9 @@ class User extends Authenticatable
     protected $fillable = [
         'name',
         'email',
+        'phone',
+        'role',
+        'wage',
         'password',
     ];
 
@@ -43,6 +46,12 @@ class User extends Authenticatable
         return [
             'email_verified_at' => 'datetime',
             'password' => 'hashed',
+            'wage' => 'decimal:2',
         ];
+    }
+
+    public function assignedOrders()
+    {
+        return $this->hasMany(Order::class, 'assigned_to');
     }
 }

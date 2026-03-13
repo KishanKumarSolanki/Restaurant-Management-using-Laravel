@@ -13,7 +13,7 @@ class Item extends Model
         'name',
         'price',
         'category',
+        'description',
+        'is_available',
     ];
-
-
 }

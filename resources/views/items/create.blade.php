@@ -80,6 +80,24 @@
                                 </div>
                             </div>
 
+                            <div class="col-md-6">
+                                <div class="form-floating">
+                                    <select name="is_available" id="is_available"
+                                            class="form-select @error('is_available') is-invalid @enderror" required>
+                                        <option value="1" {{ old('is_available', '1') == '1' ? 'selected' : '' }}>Available</option>
+                                        <option value="0" {{ old('is_available') == '0' ? 'selected' : '' }}>Out of Stock</option>
+                                    </select>
+                                    <label for="is_available">
+                                        <i class="fas fa-toggle-on me-1"></i> Availability
+                                    </label>
+                                    @error('is_available')
+                                        <div class="invalid-feedback">
+                                            <i class="fas fa-exclamation-circle me-1"></i> {{ $message }}
+                                        </div>
+                                    @enderror
+                                </div>
+                            </div>
+
                             <div class="col-12">
                                 <div class="form-floating">
                                     <textarea name="description" id="description" 

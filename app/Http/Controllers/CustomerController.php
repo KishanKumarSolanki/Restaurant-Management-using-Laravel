@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\customer;
+use App\Models\customer as Customer;
 use Illuminate\Http\Request;
 
 class CustomerController extends Controller
@@ -13,7 +13,7 @@ class CustomerController extends Controller
     public function index()
     {
         
-        $customers = customer::paginate(10);
+        $customers = Customer::orderBy('name')->paginate(10);
         return view('customers.index', compact('customers'));
     }
 
@@ -32,13 +32,14 @@ class CustomerController extends Controller
     public function store(Request $request)
     {
         
-        $request->validate([
-            'customerno' => 'required',
-            'name' => 'required',
-            'phone' => 'required',
-            'address' => 'required',
+        $validated = $request->validate([
+            'customerno' => 'required|string|max:255',
+            'name' => 'required|string|max:255',
+            'phone' => 'required|string|max:20',
+            'address' => 'required|string|max:255',
+            'notes' => 'nullable|string|max:500',
         ]);
-        customer::create($request->all());
+        Customer::create($validated);
         return redirect()->route('customers.index')
             ->with('success', 'Customer created successfully.');
     }
@@ -46,7 +47,7 @@ class CustomerController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(customer $customer)
+    public function show(Customer $customer)
     {
         //
     }
@@ -54,7 +55,7 @@ class CustomerController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(customer $customer)
+    public function edit(Customer $customer)
     {
         return view('customers.edit', compact('customer'));
     }
@@ -63,24 +64,24 @@ class CustomerController extends Controller
      * Update the specified resource in storage.
      */
     public function update(Request $request, Customer $customer)
-{
-    $validated = $request->validate([
-        'customerno' => 'required|string|max:255',
-        'name'       => 'required|string|max:255',
-        'phone'      => 'required|string|max:15',
-        'address'    => 'required|string|max:255',
-        'notes'      => 'nullable|string',
-    ]);
+    {
+        $validated = $request->validate([
+            'customerno' => 'required|string|max:255',
+            'name' => 'required|string|max:255',
+            'phone' => 'required|string|max:20',
+            'address' => 'required|string|max:255',
+            'notes' => 'nullable|string|max:500',
+        ]);
 
-    $customer->update($validated);
+        $customer->update($validated);
 
-    return redirect()->route('customers.index')->with('success', 'Customer updated successfully!');
-}
+        return redirect()->route('customers.index')->with('success', 'Customer updated successfully!');
+    }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(customer $customer)
+    public function destroy(Customer $customer)
     {
         $customer->delete();
         return redirect()->route('customers.index')
