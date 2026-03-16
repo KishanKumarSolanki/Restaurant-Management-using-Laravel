@@ -67,6 +67,18 @@
 
     <div class="col-md-6">
         <div class="form-floating">
+            <input type="date" name="hire_date" id="hire_date"
+                   class="form-control @error('hire_date') is-invalid @enderror"
+                   value="{{ old('hire_date', isset($staffMember) && $staffMember->hire_date ? $staffMember->hire_date->format('Y-m-d') : '') }}">
+            <label for="hire_date"><i class="fas fa-calendar-check me-1"></i> Hire Date</label>
+            @error('hire_date')
+                <div class="invalid-feedback">{{ $message }}</div>
+            @enderror
+        </div>
+    </div>
+
+    <div class="col-md-6">
+        <div class="form-floating">
             <input type="password" name="password" id="password"
                    class="form-control @error('password') is-invalid @enderror"
                    placeholder="Password" {{ isset($staffMember) ? '' : 'required' }}>

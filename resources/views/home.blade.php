@@ -242,6 +242,16 @@
                         <i class="fas fa-receipt"></i> Orders
                     </a>
                 </li>
+                <li class="nav-item">
+                    <a class="nav-link {{ request()->is('reports*') ? 'active' : '' }}" href="{{ route('reports.index') }}">
+                        <i class="fas fa-chart-line"></i> Reports
+                    </a>
+                </li>
+                <li class="nav-item">
+                        <a class="nav-link {{ request()->is('staff*') || request()->is('staff-members*') ? 'active' : '' }}" href="{{ route('staff-members.index') }}">
+                            <i class="fas fa-user-check"></i> Staff
+                        </a>
+                    </li>
             </ul>
             <div class="d-flex align-items-center gap-2">
                 <!-- Dashboard Button (Right Side) -->

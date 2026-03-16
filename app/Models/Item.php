@@ -13,7 +13,13 @@ class Item extends Model
         'name',
         'price',
         'category',
+        'menu_category_id',
         'description',
         'is_available',
     ];
+
+    public function menuCategory()
+    {
+        return $this->belongsTo(MenuCategory::class);
+    }
 }

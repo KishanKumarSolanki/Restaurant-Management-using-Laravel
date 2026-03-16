@@ -41,6 +41,6 @@ class Order extends Model
 
     public function getAssignmentNameAttribute(): ?string
     {
-        return $this->assigned_staff_name ?: $this->assignedStaff?->name;
+        return $this->assignedStaff?->name ?: $this->assigned_staff_name;
     }
 }

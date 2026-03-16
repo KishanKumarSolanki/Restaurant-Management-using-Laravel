@@ -205,7 +205,7 @@
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link {{ request()->is('items*') ? 'active' : '' }}" href="{{ url('/items') }}">
+                        <a class="nav-link {{ request()->is('items*') || request()->is('menu-categories*') ? 'active' : '' }}" href="{{ url('/items') }}">
                             <i class="fas fa-utensils"></i> Menu Items
                         </a>
                     </li>
@@ -215,7 +215,12 @@
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link {{ request()->is('staff*') || request()->is('staff-members*') ? 'active' : '' }}" href="{{ route('staff-members.index') }}">
+                        <a class="nav-link {{ request()->is('reports*') ? 'active' : '' }}" href="{{ route('reports.index') }}">
+                            <i class="fas fa-chart-line"></i> Reports
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link {{ request()->is('staff*') || request()->is('staff-members*') || request()->is('staff-shifts*') ? 'active' : '' }}" href="{{ route('staff-members.index') }}">
                             <i class="fas fa-user-check"></i> Staff
                         </a>
                     </li>

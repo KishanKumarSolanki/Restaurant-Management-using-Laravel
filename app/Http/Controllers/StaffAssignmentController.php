@@ -3,12 +3,21 @@
 namespace App\Http\Controllers;
 
 use App\Models\Order;
+use App\Models\User;
 use Illuminate\Http\Request;
 
 class StaffAssignmentController extends Controller
 {
     public function create()
     {
+        $staffMembers = User::query()
+            ->when(
+                User::whereNotNull('role')->exists(),
+                fn ($query) => $query->whereNotNull('role')
+            )
+            ->orderBy('name')
+            ->get();
+
         $orders = Order::with('assignedStaff')
             ->whereIn('status', ['pending', 'processing'])
             ->orderByRaw("CASE WHEN assigned_to IS NULL AND assigned_staff_name IS NULL THEN 0 ELSE 1 END")
@@ -23,22 +32,24 @@ class StaffAssignmentController extends Controller
             )->count(),
         ];
 
-        return view('Staff.create', compact('orders', 'stats'));
+        return view('Staff.create', compact('orders', 'stats', 'staffMembers'));
     }
 
     public function store(Request $request)
     {
         $validated = $request->validate([
             'order_id' => ['required', 'exists:orders,id'],
-            'assigned_staff_name' => ['required', 'string', 'max:100'],
+            'assigned_to' => ['required', 'exists:users,id'],
             'status' => ['required', 'in:pending,processing,completed,cancelled'],
             'assignment_notes' => ['nullable', 'string', 'max:500'],
         ]);
 
         $order = Order::findOrFail($validated['order_id']);
+        $staffMember = User::findOrFail($validated['assigned_to']);
+
         $order->update([
-            'assigned_to' => null,
-            'assigned_staff_name' => $validated['assigned_staff_name'],
+            'assigned_to' => $staffMember->id,
+            'assigned_staff_name' => null,
             'status' => $validated['status'],
             'assignment_notes' => $validated['assignment_notes'] ?? null,
             'assigned_at' => now(),
@@ -46,6 +57,6 @@ class StaffAssignmentController extends Controller
 
         return redirect()
             ->route('staff.create')
-            ->with('success', "Order {$order->ordername} assigned to {$validated['assigned_staff_name']} successfully.");
+            ->with('success', "Order {$order->ordername} assigned to {$staffMember->name} successfully.");
     }
 }

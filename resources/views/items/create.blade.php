@@ -9,6 +9,12 @@
     <li class="breadcrumb-item active">Create</li>
 @endsection
 
+@section('page-actions')
+    <a href="{{ route('menu-categories.index') }}" class="btn btn-outline-primary btn-sm">
+        <i class="fas fa-folder-tree me-1"></i> Manage Categories
+    </a>
+@endsection
+
 @section('content')
 <div class="container">
     <div class="row justify-content-center">
@@ -60,24 +66,27 @@
 
                             <div class="col-md-6">
                                 <div class="form-floating">
-                                    <select name="category" id="category" 
-                                            class="form-select @error('category') is-invalid @enderror" required>
+                                    <select name="menu_category_id" id="menu_category_id" 
+                                            class="form-select @error('menu_category_id') is-invalid @enderror" required>
                                         <option value="">Select Category</option>
-                                        <option value="Appetizers" {{ old('category') == 'Appetizers' ? 'selected' : '' }}>Appetizers</option>
-                                        <option value="Main Course" {{ old('category') == 'Main Course' ? 'selected' : '' }}>Main Course</option>
-                                        <option value="Desserts" {{ old('category') == 'Desserts' ? 'selected' : '' }}>Desserts</option>
-                                        <option value="Beverages" {{ old('category') == 'Beverages' ? 'selected' : '' }}>Beverages</option>
-                                        <option value="Specials" {{ old('category') == 'Specials' ? 'selected' : '' }}>Specials</option>
+                                        @foreach($categories as $category)
+                                            <option value="{{ $category->id }}" {{ (string) old('menu_category_id') === (string) $category->id ? 'selected' : '' }}>
+                                                {{ $category->name }}
+                                            </option>
+                                        @endforeach
                                     </select>
-                                    <label for="category">
+                                    <label for="menu_category_id">
                                         <i class="fas fa-list me-1"></i> Category
                                     </label>
-                                    @error('category')
+                                    @error('menu_category_id')
                                         <div class="invalid-feedback">
                                             <i class="fas fa-exclamation-circle me-1"></i> {{ $message }}
                                         </div>
                                     @enderror
                                 </div>
+                                @if($categories->isEmpty())
+                                    <div class="form-text text-danger">Pehle <a href="{{ route('menu-categories.create') }}">menu category create</a> karo.</div>
+                                @endif
                             </div>
 
                             <div class="col-md-6">

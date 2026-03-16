@@ -66,6 +66,12 @@
                             <i class="fas fa-circle-info me-2"></i>
                             No pending or processing orders are available for assignment.
                         </div>
+                    @elseif($staffMembers->isEmpty())
+                        <div class="alert alert-warning mb-0">
+                            <i class="fas fa-user-slash me-2"></i>
+                            Pehle <a href="{{ route('staff-members.create') }}" class="alert-link">Add Staff</a> se staff member create karo,
+                            phir yahan order assign hoga.
+                        </div>
                     @else
                         <form action="{{ route('staff.store') }}" method="POST" id="staffAssignmentForm">
                             @csrf
@@ -95,18 +101,22 @@
                             </div>
 
                             <div class="mb-3">
-                                <label for="assigned_staff_name" class="form-label fw-semibold">Staff Name</label>
-                                <input
-                                    type="text"
-                                    name="assigned_staff_name"
-                                    id="assigned_staff_name"
-                                    class="form-control @error('assigned_staff_name') is-invalid @enderror"
-                                    value="{{ old('assigned_staff_name') }}"
-                                    placeholder="Example: Rahul, Ankit, Priya"
+                                <label for="assigned_to" class="form-label fw-semibold">Assign To Staff</label>
+                                <select
+                                    name="assigned_to"
+                                    id="assigned_to"
+                                    class="form-select @error('assigned_to') is-invalid @enderror"
                                     required
                                 >
-                                <div class="form-text">Aap yahan directly naam likh sakte ho jisko order dena hai.</div>
-                                @error('assigned_staff_name')
+                                    <option value="">Choose staff member</option>
+                                    @foreach($staffMembers as $staffMember)
+                                        <option value="{{ $staffMember->id }}" {{ (string) old('assigned_to') === (string) $staffMember->id ? 'selected' : '' }}>
+                                            {{ $staffMember->name }}{{ $staffMember->role ? ' - ' . ucfirst($staffMember->role) : '' }}
+                                        </option>
+                                    @endforeach
+                                </select>
+                                <div class="form-text">Yahan sirf wahi naam aayenge jo `Add Staff` wale section me create kiye gaye hain.</div>
+                                @error('assigned_to')
                                     <div class="invalid-feedback">{{ $message }}</div>
                                 @enderror
                             </div>

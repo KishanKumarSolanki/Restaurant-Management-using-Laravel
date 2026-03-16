@@ -23,6 +23,7 @@ class User extends Authenticatable
         'phone',
         'role',
         'wage',
+        'hire_date',
         'password',
     ];
 
@@ -47,11 +48,17 @@ class User extends Authenticatable
             'email_verified_at' => 'datetime',
             'password' => 'hashed',
             'wage' => 'decimal:2',
+            'hire_date' => 'date',
         ];
     }
 
     public function assignedOrders()
     {
         return $this->hasMany(Order::class, 'assigned_to');
+    }
+
+    public function staffShifts()
+    {
+        return $this->hasMany(StaffShift::class);
     }
 }

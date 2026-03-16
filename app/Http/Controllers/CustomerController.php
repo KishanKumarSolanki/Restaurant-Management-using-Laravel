@@ -38,6 +38,8 @@ class CustomerController extends Controller
             'phone' => 'required|string|max:20',
             'address' => 'required|string|max:255',
             'notes' => 'nullable|string|max:500',
+            'preferences' => 'nullable|string|max:500',
+            'feedback' => 'nullable|string|max:500',
         ]);
         Customer::create($validated);
         return redirect()->route('customers.index')
@@ -49,7 +51,19 @@ class CustomerController extends Controller
      */
     public function show(Customer $customer)
     {
-        //
+        $orders = $customer->orders()
+            ->with(['orderItems.item'])
+            ->latest()
+            ->paginate(10);
+
+        $summary = [
+            'total_orders' => $customer->orders()->count(),
+            'completed_orders' => $customer->orders()->where('status', 'completed')->count(),
+            'active_orders' => $customer->orders()->whereIn('status', ['pending', 'processing'])->count(),
+            'total_spent' => $customer->orders()->where('status', 'completed')->sum('amount'),
+        ];
+
+        return view('customers.show', compact('customer', 'orders', 'summary'));
     }
 
     /**
@@ -71,6 +85,8 @@ class CustomerController extends Controller
             'phone' => 'required|string|max:20',
             'address' => 'required|string|max:255',
             'notes' => 'nullable|string|max:500',
+            'preferences' => 'nullable|string|max:500',
+            'feedback' => 'nullable|string|max:500',
         ]);
 
         $customer->update($validated);

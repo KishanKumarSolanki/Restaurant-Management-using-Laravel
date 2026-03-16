@@ -9,6 +9,9 @@
 @endsection
 
 @section('page-actions')
+    <a href="{{ route('staff-shifts.index') }}" class="btn btn-outline-primary btn-sm">
+        <i class="fas fa-calendar-days me-1"></i> Manage Shifts
+    </a>
     <a href="{{ route('staff.create') }}" class="btn btn-outline-primary btn-sm">
         <i class="fas fa-user-check me-1"></i> Assign Orders
     </a>
@@ -29,8 +32,10 @@
                         <th>Email</th>
                         <th>Role</th>
                         <th>Phone</th>
+                        <th>Hire Date</th>
                         <th>Wage</th>
                         <th>Assigned Orders</th>
+                        <th>Upcoming Shifts</th>
                         <th class="text-end">Actions</th>
                     </tr>
                 </thead>
@@ -42,8 +47,10 @@
                             <td>{{ $staffMember->email }}</td>
                             <td><span class="badge bg-info-subtle text-info-emphasis border">{{ ucfirst($staffMember->role ?? 'staff') }}</span></td>
                             <td>{{ $staffMember->phone ?: 'N/A' }}</td>
+                            <td>{{ $staffMember->hire_date?->format('d M Y') ?: 'N/A' }}</td>
                             <td>{{ $staffMember->wage ? number_format($staffMember->wage, 2) : 'N/A' }}</td>
                             <td>{{ $staffMember->assigned_orders_count }}</td>
+                            <td>{{ $staffMember->upcoming_shifts_count }}</td>
                             <td class="text-end">
                                 <div class="btn-group btn-group-sm">
                                     <a href="{{ route('staff-members.edit', $staffMember->id) }}" class="btn btn-outline-primary">
@@ -61,7 +68,7 @@
                         </tr>
                     @empty
                         <tr>
-                            <td colspan="8" class="text-center py-4">
+                            <td colspan="10" class="text-center py-4">
                                 <i class="fas fa-user-slash fa-2x text-muted mb-3"></i>
                                 <h5 class="text-muted">No staff members found</h5>
                                 <a href="{{ route('staff-members.create') }}" class="btn btn-primary mt-2">

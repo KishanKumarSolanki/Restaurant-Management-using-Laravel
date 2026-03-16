@@ -109,6 +109,40 @@
                                     @enderror
                                 </div>
                             </div>
+
+                            <div class="col-md-6">
+                                <div class="form-floating">
+                                    <textarea name="preferences" id="preferences"
+                                              class="form-control @error('preferences') is-invalid @enderror"
+                                              placeholder="Customer Preferences"
+                                              style="height: 110px">{{ old('preferences') }}</textarea>
+                                    <label for="preferences" class="form-label">
+                                        <i class="fas fa-heart me-1"></i> Preferences
+                                    </label>
+                                    @error('preferences')
+                                        <div class="invalid-feedback">
+                                            <i class="fas fa-exclamation-circle me-1"></i> {{ $message }}
+                                        </div>
+                                    @enderror
+                                </div>
+                            </div>
+
+                            <div class="col-md-6">
+                                <div class="form-floating">
+                                    <textarea name="feedback" id="feedback"
+                                              class="form-control @error('feedback') is-invalid @enderror"
+                                              placeholder="Recent Feedback"
+                                              style="height: 110px">{{ old('feedback') }}</textarea>
+                                    <label for="feedback" class="form-label">
+                                        <i class="fas fa-comment-dots me-1"></i> Feedback
+                                    </label>
+                                    @error('feedback')
+                                        <div class="invalid-feedback">
+                                            <i class="fas fa-exclamation-circle me-1"></i> {{ $message }}
+                                        </div>
+                                    @enderror
+                                </div>
+                            </div>
                         </div>
 
                         <div class="d-flex justify-content-between mt-4">

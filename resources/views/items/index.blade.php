@@ -8,6 +8,15 @@
     <li class="breadcrumb-item active">Items</li>
 @endsection
 
+@section('page-actions')
+    <a href="{{ route('menu-categories.index') }}" class="btn btn-outline-primary btn-sm">
+        <i class="fas fa-folder-tree me-1"></i> Categories
+    </a>
+    <a href="{{ route('items.create') }}" class="btn btn-primary btn-sm">
+        <i class="fas fa-plus-circle me-1"></i> Add Item
+    </a>
+@endsection
+
 @section('content')
 <div class="container-fluid">
     <div class="card shadow-sm">
@@ -15,9 +24,6 @@
             <h5 class="mb-0">
                 <i class="fas fa-boxes me-2"></i>Items Management
             </h5>
-            <a href="{{ route('items.create') }}" class="btn btn-primary btn-sm">
-                <i class="fas fa-plus-circle me-1"></i> Add Item
-            </a>
         </div>
         <div class="card-body">
             @if (Session::has('success'))
@@ -47,7 +53,7 @@
                                 <td>{{ ($items->currentPage() - 1) * $items->perPage() + $loop->iteration }}</td>
                                 <td>{{ $item->name }}</td>
                                 <td>{{ number_format($item->price, 2) }}</td>
-                                <td>{{ $item->category }}</td>
+                                <td>{{ $item->menuCategory?->name ?: $item->category }}</td>
                                 <td>{{ Str::limit($item->description ?: 'No description added.', 40) }}</td>
                                 <td>
                                     <span class="badge {{ $item->is_available ? 'bg-success' : 'bg-danger' }}">

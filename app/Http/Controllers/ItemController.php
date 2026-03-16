@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Item;
+use App\Models\MenuCategory;
 use Illuminate\Http\Request;
 
 class ItemController extends Controller
@@ -12,7 +13,7 @@ class ItemController extends Controller
      */
     public function index()
     {
-        $items = Item::orderBy('name')->paginate(10);
+        $items = Item::with('menuCategory')->orderBy('name')->paginate(10);
         return view('items.index', compact('items'));
     }
 
@@ -21,7 +22,9 @@ class ItemController extends Controller
      */
     public function create()
     {
-        return view('items.create');
+        $categories = MenuCategory::where('is_active', true)->orderBy('name')->get();
+
+        return view('items.create', compact('categories'));
     }
 
     /**
@@ -32,10 +35,13 @@ class ItemController extends Controller
         $validated = $request->validate([
             'name' => 'required|string|max:255',
             'price' => 'required|numeric|min:1|max:9999.99',
-            'category' => 'required|string|max:255',
+            'menu_category_id' => 'required|exists:menu_categories,id',
             'description' => 'nullable|string|max:500',
             'is_available' => 'required|boolean',
         ]);
+
+        $category = MenuCategory::findOrFail($validated['menu_category_id']);
+        $validated['category'] = $category->name;
 
         Item::create($validated);
 
@@ -55,7 +61,12 @@ class ItemController extends Controller
      */
     public function edit(Item $item)
     {
-        return view('items.edit', compact('item'));
+        $categories = MenuCategory::where('is_active', true)
+            ->orWhere('id', $item->menu_category_id)
+            ->orderBy('name')
+            ->get();
+
+        return view('items.edit', compact('item', 'categories'));
     }
 
     /**
@@ -66,10 +77,13 @@ class ItemController extends Controller
         $validated = $request->validate([
             'name' => 'required|string|max:255',
             'price' => 'required|numeric|min:1|max:9999.99',
-            'category' => 'required|string|max:255',
+            'menu_category_id' => 'required|exists:menu_categories,id',
             'description' => 'nullable|string|max:500',
             'is_available' => 'required|boolean',
         ]);
+
+        $category = MenuCategory::findOrFail($validated['menu_category_id']);
+        $validated['category'] = $category->name;
 
         $item->update($validated);
 

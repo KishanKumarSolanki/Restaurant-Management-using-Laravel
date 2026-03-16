@@ -9,7 +9,13 @@ class StaffMemberController extends Controller
 {
     public function index()
     {
-        $staffMembers = User::withCount('assignedOrders')->orderBy('name')->paginate(10);
+        $staffMembers = User::withCount([
+                'assignedOrders',
+                'staffShifts',
+                'staffShifts as upcoming_shifts_count' => fn ($query) => $query->whereDate('shift_date', '>=', today()),
+            ])
+            ->orderBy('name')
+            ->paginate(10);
 
         return view('staff-members.index', compact('staffMembers'));
     }
@@ -27,6 +33,7 @@ class StaffMemberController extends Controller
             'phone' => 'nullable|string|max:20',
             'role' => 'required|string|max:100',
             'wage' => 'nullable|numeric|min:0|max:99999.99',
+            'hire_date' => 'nullable|date',
             'password' => 'required|string|min:8|confirmed',
         ]);
 
@@ -48,6 +55,7 @@ class StaffMemberController extends Controller
             'phone' => 'nullable|string|max:20',
             'role' => 'required|string|max:100',
             'wage' => 'nullable|numeric|min:0|max:99999.99',
+            'hire_date' => 'nullable|date',
             'password' => 'nullable|string|min:8|confirmed',
         ]);
 
