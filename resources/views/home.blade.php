@@ -377,7 +377,7 @@
             <div class="row">
                 <div class="col-md-6 text-center text-md-start">
                     <h5><i class="fas fa-utensils me-2"></i>Cafe Express</h5>
-                    <p>Streamlining restaurant operations since 2023</p>
+                    <p>Streamlining restaurant operations since 2026</p>
                 </div>
                 <div class="col-md-6 text-center text-md-end">
                     <div class="social-icons">
