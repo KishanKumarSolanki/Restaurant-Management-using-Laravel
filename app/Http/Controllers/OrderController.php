@@ -30,6 +30,16 @@ class OrderController extends Controller
         return view('orders.create', compact('customers', 'items'));
     }
 
+    public function cart()
+    {
+        $cartOrders = Order::with(['orderItems.item'])
+            ->whereNull('paid_at')
+            ->latest()
+            ->get();
+
+        return view('orders.cart', compact('cartOrders'));
+    }
+
     /**
      * Store a newly created resource in storage.
      */
@@ -38,7 +48,7 @@ class OrderController extends Controller
         $validated = $this->validateOrder($request);
         $preparedItems = $this->prepareOrderItems($validated['items']);
 
-        DB::transaction(function () use ($validated, $preparedItems) {
+        $order = DB::transaction(function () use ($validated, $preparedItems) {
             $order = Order::create([
                 'ordername' => $validated['ordername'],
                 'customerno' => $validated['customerno'],
@@ -49,9 +59,28 @@ class OrderController extends Controller
             ]);
 
             $this->syncOrderItems($order, $preparedItems['items']);
+
+            return $order;
         });
 
-        return redirect()->route('orders.index')->with('success', 'Order created successfully.');
+        return redirect()
+            ->route('orders.cart')
+            ->with('success', "Order {$order->ordername} cart me add ho gaya.");
+    }
+
+    public function updateCart(Request $request, Order $order)
+    {
+        $validated = $request->validate([
+            'payment_method' => 'required|in:cash,online',
+        ]);
+
+        $order->update([
+            'payment_method' => $validated['payment_method'],
+            'payment_status' => 'paid',
+            'paid_at' => now(),
+        ]);
+
+        return redirect()->route('orders.cart')->with('success', "Payment saved for {$order->ordername}.");
     }
 
     /**
@@ -124,7 +153,7 @@ class OrderController extends Controller
         ]);
     }
 
-    private function prepareOrderItems(array $items): array
+    private function prepareOrderItems(array $items, string $defaultStatus = 'pending'): array
     {
         $itemModels = Item::whereIn('id', collect($items)->pluck('item_id')->unique()->all())
             ->get()
@@ -144,7 +173,7 @@ class OrderController extends Controller
                 'unit_price' => $unitPrice,
                 'line_total' => $quantity * $unitPrice,
                 'item_notes' => $line['item_notes'] ?? null,
-                'item_status' => $line['item_status'],
+                'item_status' => $line['item_status'] ?? $defaultStatus,
             ];
         });
 

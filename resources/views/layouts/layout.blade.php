@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>@yield('title', 'Cafe Express - Restaurant Management')</title>
+    <link rel="icon" type="image/jpeg" href="{{ asset('favicon.jpg') }}">
     
     <!-- Bootstrap 5 CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
@@ -185,58 +186,67 @@
 <body>
     <!-- Navbar -->
     <nav class="navbar navbar-expand-lg navbar-dark sticky-top">
-        <div class="container">
-            <a class="navbar-brand" href="{{ route('home') }}">
-                <i class="fas fa-utensils"></i>Cafe Express
-            </a>
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-            <div class="collapse navbar-collapse" id="navbarNav">
-                <ul class="navbar-nav me-auto">
-                    <li class="nav-item">
-                        <a class="nav-link {{ request()->routeIs('home') ? 'active' : '' }}" href="{{ route('home') }}">
-                            <i class="fas fa-home"></i> Home
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link {{ request()->is('customers*') ? 'active' : '' }}" href="{{ url('/customers') }}">
-                            <i class="fas fa-users"></i> Customers
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link {{ request()->is('items*') || request()->is('menu-categories*') ? 'active' : '' }}" href="{{ url('/items') }}">
-                            <i class="fas fa-utensils"></i> Menu Items
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link {{ request()->is('orders*') ? 'active' : '' }}" href="{{ url('/orders') }}">
-                            <i class="fas fa-receipt"></i> Orders
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link {{ request()->is('reports*') ? 'active' : '' }}" href="{{ route('reports.index') }}">
-                            <i class="fas fa-chart-line"></i> Reports
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link {{ request()->is('staff*') || request()->is('staff-members*') || request()->is('staff-shifts*') ? 'active' : '' }}" href="{{ route('staff-members.index') }}">
+    <div class="container">
+        <a class="navbar-brand" href="{{ route('home') }}">
+            <i class="fas fa-utensils"></i> Cafe Express
+        </a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav me-auto">
+                <li class="nav-item">
+                    <a class="nav-link {{ request()->routeIs('home') ? 'active' : '' }}" href="{{ route('home') }}">
+                        <i class="fas fa-home"></i> Home
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link {{ request()->is('customers*') ? 'active' : '' }}" href="{{ url('/customers') }}">
+                        <i class="fas fa-users"></i> Customers
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link {{ request()->is('items*') ? 'active' : '' }}" href="{{ url('/items') }}">
+                        <i class="fas fa-utensils"></i> Menu Items
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link {{ request()->is('orders*') ? 'active' : '' }}" href="{{ url('/orders') }}">
+                        <i class="fas fa-receipt"></i> Orders
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link {{ request()->is('reports*') ? 'active' : '' }}" href="{{ route('reports.index') }}">
+                        <i class="fas fa-chart-line"></i> Reports
+                    </a>
+                </li>
+                <li class="nav-item">
+                        <a class="nav-link {{ request()->is('staff*') || request()->is('staff-members*') ? 'active' : '' }}" href="{{ route('staff-members.index') }}">
                             <i class="fas fa-user-check"></i> Staff
                         </a>
                     </li>
-                </ul>
-                <div>
-                    <a href="{{ route('logout') }}" class="btn btn-outline-light"
-                       onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
-                        <i class="fas fa-sign-out-alt me-1"></i> Logout
-                    </a>
-                    <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
-                        @csrf
-                    </form>
-                </div>
+            </ul>
+            <div class="d-flex align-items-center gap-2">
+                <!-- Logout Button -->
+                <!-- <a href="{{ route('logout') }}" class="btn btn-outline-light btn-sm"
+                   onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
+                    <i class="fas fa-sign-out-alt me-1"></i> Logout
+                </a> -->
+                <a class="btn btn-outline-light btn-sm position-relative" href="{{ route('orders.cart') }}">
+                    <i class="fas fa-cart-shopping me-1"></i> Cart
+                    @if(($cartCount ?? 0) > 0)
+                        <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
+                            {{ $cartCount }}
+                        </span>
+                    @endif
+                </a>
+                <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
+                    @csrf
+                </form>
             </div>
         </div>
-    </nav>
+    </div>
+</nav>
 
     <!-- Main Content -->
     <main class="main-content">

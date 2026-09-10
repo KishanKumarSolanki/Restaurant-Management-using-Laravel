@@ -2,7 +2,9 @@
 
 namespace App\Providers;
 
+use App\Models\Order;
 use Illuminate\Support\ServiceProvider;
+use Illuminate\Support\Facades\View;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -19,6 +21,10 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
-        //
+        View::composer(['layouts.layout', 'home', 'orders.cart'], function ($view) {
+            $cartCount = Order::whereNull('paid_at')->count();
+
+            $view->with('cartCount', $cartCount);
+        });
     }
 }

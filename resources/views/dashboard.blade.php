@@ -6,7 +6,7 @@
             </h2>
             <a href="{{ route('home') }}"
                class="btn btn-lg rounded-pill fw-semibold text-dark shadow"
-               style="background: linear-gradient(135deg, #FFC371, #FF5F6D); border-radius: 5px;">
+               style="background: linear-gradient(135deg, #0cc8e9, #0fe0e7); border-radius: 5px;">
                 <i class="fas fa-home me-2"></i> Home
             </a>
         </div>
@@ -15,7 +15,7 @@
     <div class="dashboard-shell py-5">
         <div class="container">
             <div class="hero-panel mb-4 shadow-lg border-0">
-                <div class="card-body text-white p-4 p-lg-5">
+                <div class="card-body p-4 p-lg-5">
                     <div class="row align-items-center g-4">
                         <div class="col-lg-8">
                             <span class="eyebrow">Cafe Express Control Center</span>
@@ -28,7 +28,7 @@
                                 <a href="{{ route('staff.create') }}" class="btn btn-warning btn-lg rounded-pill fw-semibold text-dark">
                                     <i class="fas fa-user-check me-2"></i> Assign Orders
                                 </a>
-                                <a href="{{ route('orders.index') }}" class="btn btn-outline-light btn-lg rounded-pill fw-semibold">
+                                <a href="{{ route('orders.index') }}" class="btn btn-outline-dark btn-lg rounded-pill fw-semibold">
                                     <i class="fas fa-receipt me-2"></i> View Orders
                                 </a>
                             </div>
@@ -56,7 +56,7 @@
             <div class="cards-container mb-4">
                 @foreach ($cards as $card)
                     <div class="counter-card d-flex flex-column justify-content-center align-items-center shadow-lg border-0"
-                         style="border-radius: 24px; background: linear-gradient(135deg, {{ $card['gradient'][0] }}, {{ $card['gradient'][1] }}); color: white;">
+                         style="border-radius: 24px; background: #d1d5db; color: #111111;">
                         <div class="card-body text-center">
                             <i class="fas fa-{{ $card['icon'] }} fa-3x mb-3"></i>
                             <h5 class="fw-bold text-uppercase mb-2">{{ $card['title'] }}</h5>
@@ -71,10 +71,10 @@
                     <div class="glass-card shadow-lg h-100">
                         <div class="section-header">
                             <div>
-                                <span class="eyebrow text-info">Operations Snapshot</span>
-                                <h4 class="mb-0 text-white">Staff Assignment Overview</h4>
+                                <span class="eyebrow">Operations Snapshot</span>
+                                <h4 class="mb-0 text-dark">Staff Assignment Overview</h4>
                             </div>
-                            <a href="{{ route('staff.create') }}" class="btn btn-sm btn-outline-light rounded-pill">Manage</a>
+                            <a href="{{ route('staff.create') }}" class="btn btn-sm btn-outline-dark rounded-pill">Manage</a>
                         </div>
 
                         <div class="mini-stats">
@@ -96,12 +96,12 @@
                             @forelse ($recentAssignments as $order)
                                 <div class="assignment-row">
                                     <div>
-                                        <h6 class="mb-1 text-white">{{ $order->ordername }}</h6>
-                                        <small class="text-light-emphasis">Customer {{ $order->customerno }} | Qty {{ $order->quantity }}</small>
+                                        <h6 class="mb-1 text-dark">{{ $order->ordername }}</h6>
+                                        <small class="text-muted">Customer {{ $order->customerno }} | Qty {{ $order->quantity }}</small>
                                     </div>
                                     <div class="text-end">
-                                        <div class="badge rounded-pill text-bg-light text-white px-3 py-2">{{ $order->assignment_name }}</div>
-                                        <small class="d-block text-light-emphasis mt-2">
+                                        <div class="badge rounded-pill text-bg-secondary px-3 py-2">{{ $order->assignment_name }}</div>
+                                        <small class="d-block text-muted mt-2">
                                             {{ optional($order->assigned_at)->diffForHumans() ?? 'Assigned recently' }}
                                         </small>
                                     </div>
@@ -120,8 +120,8 @@
                     <div class="glass-card shadow-lg h-100">
                         <div class="section-header">
                             <div>
-                                <span class="eyebrow text-warning">Quick Actions</span>
-                                <h4 class="mb-0 text-white">Fast Navigation</h4>
+                                <span class="eyebrow">Quick Actions</span>
+                                <h4 class="mb-0 text-dark">Fast Navigation</h4>
                             </div>
                         </div>
 
@@ -160,10 +160,8 @@
     <style>
         body {
             font-family: 'Segoe UI', sans-serif;
-            background:
-                radial-gradient(circle at top left, rgba(56, 189, 248, 0.16), transparent 30%),
-                radial-gradient(circle at top right, rgba(250, 204, 21, 0.16), transparent 25%),
-                linear-gradient(180deg, #08111f 0%, #0b1324 100%);
+            background: #b80b0b;
+            color: #111111;
         }
 
         .dashboard-shell {
@@ -171,8 +169,8 @@
         }
 
         .hero-panel {
-            background: linear-gradient(135deg, rgba(20, 28, 48, 0.96), rgba(36, 59, 85, 0.92));
-            border: 1px solid rgba(255, 255, 255, 0.08);
+            background: #e5e7eb;
+            border: 1px solid #d1d5db;
             border-radius: 28px;
             overflow: hidden;
         }
@@ -183,7 +181,7 @@
             text-transform: uppercase;
             font-size: 0.78rem;
             font-weight: 700;
-            color: #93c5fd;
+            color: #0e499c;
         }
 
         .hero-title {
@@ -194,15 +192,14 @@
 
         .hero-copy {
             max-width: 58ch;
-            color: rgba(255, 255, 255, 0.78);
+            color: #374151;
         }
 
         .highlight-box {
-            background: rgba(255, 255, 255, 0.08);
-            border: 1px solid rgba(255, 255, 255, 0.12);
+            background: #d1d5db;
+            border: 1px solid #9ca3af;
             border-radius: 24px;
             padding: 1.5rem;
-            backdrop-filter: blur(10px);
         }
 
         .highlight-label,
@@ -211,7 +208,7 @@
             text-transform: uppercase;
             letter-spacing: 0.08em;
             font-size: 0.72rem;
-            color: #fcd34d;
+            color: #374151;
         }
 
         .highlight-number {
@@ -222,7 +219,7 @@
         }
 
         .highlight-copy {
-            color: rgba(255, 255, 255, 0.72);
+            color: #374151;
         }
 
         .cards-container {
@@ -245,11 +242,10 @@
         }
 
         .glass-card {
-            background: rgba(9, 18, 34, 0.82);
-            border: 1px solid rgba(255, 255, 255, 0.08);
+            background: #e5e7eb;
+            border: 1px solid #d1d5db;
             border-radius: 26px;
             padding: 1.5rem;
-            backdrop-filter: blur(12px);
         }
 
         .section-header {
@@ -268,16 +264,16 @@
         }
 
         .mini-stat {
-            background: rgba(255, 255, 255, 0.05);
+            background: #d1d5db;
             border-radius: 18px;
             padding: 1rem;
-            color: #dbeafe;
+            color: #111111;
         }
 
         .mini-stat span {
             display: block;
             font-size: 0.82rem;
-            color: rgba(255, 255, 255, 0.66);
+            color: #4b5563;
         }
 
         .mini-stat strong {
@@ -298,15 +294,15 @@
             gap: 1rem;
             padding: 1rem 1.1rem;
             border-radius: 18px;
-            background: rgba(255, 255, 255, 0.05);
+            background: #d1d5db;
         }
 
         .empty-state {
-            border: 1px dashed rgba(255, 255, 255, 0.2);
+            border: 1px dashed #9ca3af;
             border-radius: 20px;
             padding: 2rem;
             text-align: center;
-            color: rgba(255, 255, 255, 0.72);
+            color: #4b5563;
         }
 
         .action-grid {
@@ -324,9 +320,9 @@
             padding: 1.25rem;
             border-radius: 20px;
             text-decoration: none;
-            color: white;
-            background: linear-gradient(135deg, rgba(59, 130, 246, 0.22), rgba(236, 72, 153, 0.18));
-            border: 1px solid rgba(255, 255, 255, 0.08);
+            color: #111111;
+            background: #d1d5db;
+            border: 1px solid #9ca3af;
             transition: transform 0.25s ease, border-color 0.25s ease;
         }
 
@@ -343,8 +339,8 @@
 
         .action-tile:hover {
             transform: translateY(-4px);
-            color: white;
-            border-color: rgba(255, 255, 255, 0.24);
+            color: #111111;
+            border-color: #6b7280;
         }
 
         .status-band {
@@ -354,8 +350,8 @@
             gap: 1rem;
             padding: 1.1rem 1.25rem;
             border-radius: 20px;
-            background: linear-gradient(135deg, rgba(245, 158, 11, 0.22), rgba(239, 68, 68, 0.18));
-            color: #fff7ed;
+            background: #d1d5db;
+            color: #111111;
         }
 
         .btn:hover {

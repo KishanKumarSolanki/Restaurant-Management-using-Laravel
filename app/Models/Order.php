@@ -11,9 +11,13 @@ class Order extends Model
 
     protected $fillable = [
         'ordername',
+        'bill_number',
         'customerno',
         'quantity',
         'amount',
+        'payment_method',
+        'payment_status',
+        'paid_at',
         'status',
         'notes',
         'assigned_to',
@@ -26,6 +30,7 @@ class Order extends Model
     {
         return [
             'assigned_at' => 'datetime',
+            'paid_at' => 'datetime',
         ];
     }
 

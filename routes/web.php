@@ -26,6 +26,8 @@ Route::get('/home', function () {
     return view('home');
 })->middleware(['auth'])->name('home');
 
+Route::get('/cart', [OrderController::class, 'cart'])->middleware(['auth'])->name('orders.cart');
+Route::patch('/cart/{order}', [OrderController::class, 'updateCart'])->middleware(['auth'])->name('orders.cart.update');
 route::resource('customers', CustomerController::class)->middleware(['auth']); 
 route::resource('items', ItemController::class)->middleware(['auth']);
 route::resource('menu-categories', MenuCategoryController::class)->except(['show'])->middleware(['auth']);

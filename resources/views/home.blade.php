@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Cafe Express - Home </title>
+    <link rel="icon" type="image/jpeg" href="{{ asset('favicon.jpg') }}">
     <!-- Bootstrap 5 CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <!-- Font Awesome -->
@@ -263,6 +264,14 @@
                 <a href="{{ route('logout') }}" class="btn btn-outline-light btn-sm"
                    onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
                     <i class="fas fa-sign-out-alt me-1"></i> Logout
+                </a>
+                <a class="btn btn-outline-light btn-sm position-relative" href="{{ route('orders.cart') }}">
+                    <i class="fas fa-cart-shopping me-1"></i> Cart
+                    @if(($cartCount ?? 0) > 0)
+                        <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
+                            {{ $cartCount }}
+                        </span>
+                    @endif
                 </a>
                 <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
                     @csrf
